@@ -95,14 +95,35 @@ EOL
     echo "✅ $VM_NAME deployment completed!"
 }
 
-# Create 3 control plane VMs
+echo "🔄 Resetting NAT adapter to ensure internet connectivity..."
+
+# Stop VMware Network Services
+vmnet-cli --stop
+
+# Delete the existing NAT network
+echo "🗑️ Deleting existing NAT adapter..."
+rm -rf "/etc/vmware/vmnet8"
+
+# Recreate NAT adapter
+echo "🛠️ Recreating NAT adapter..."
+vmnet-cli --configure
+
+# Start VMware Network Services
+vmnet-cli --start
+
+echo "✅ NAT adapter reset successfully!"
+
+# Restart networking inside VMs
 for i in {1..3}; do
-    create_vm "ocp$i" 4 16384 150000  # 4 vCPU, 16GB RAM, 150GB Disk
+    vmrun -T ws stop "/d/VMware/ocp$i/ocp$i.vmx" soft
+    sleep 3
+    vmrun -T ws start "/d/VMware/ocp$i/ocp$i.vmx" gui
 done
 
-# Create 2 worker VMs
 for i in {1..2}; do
-    create_vm "worker$i" 2 8192 100000  # 2 vCPU, 8GB RAM, 100GB Disk
+    vmrun -T ws stop "/d/VMware/worker$i/worker$i.vmx" soft
+    sleep 3
+    vmrun -T ws start "/d/VMware/worker$i/worker$i.vmx" gui
 done
 
-echo "🎉 All OpenShift VMs are deployed!"
+echo "🎉 VMs restarted with new NAT adapter!"
