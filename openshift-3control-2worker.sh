@@ -70,9 +70,10 @@ usb.present = "TRUE"
 sound.present = "TRUE"
 sound.virtualDev = "hdaudio"
 displayName = "$VM_NAME"
-ide1:0.present = "TRUE"
-ide1:0.fileName = "$ISO_PATH"
-ide1:0.deviceType = "cdrom-image"
+sata0.present = "TRUE"
+sata0:1.present = "TRUE"
+sata0:1.fileName = "$ISO_PATH"
+sata0:1.deviceType = "cdrom-image"
 floppy0.present = "FALSE"
 EOL
 
