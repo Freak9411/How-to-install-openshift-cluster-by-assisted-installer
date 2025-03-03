@@ -6,7 +6,7 @@ set -e
 # Define common parameters
 BASE_VM_DIR="/d/VMware" 
 ISO_URL="https://api.openshift.com/api/assisted-images/bytoken/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDA5OTM0MjksInN1YiI6ImM2MmUxNTNjLTkwMWQtNDA4OS1hZGQ0LWY2ZGVmM2Q5MGVjOSJ9.4PMBYVK6xl1p6UecJ4-inl0cbGI68f-lTcUqAMtYSlM/4.18/x86_64/full.iso"
-ISO_PATH="/c/Users/User3/Downloads/e3377d77-afed-4e11-91fd-94abdeff7754-discovery.iso"
+ISO_PATH=$(cygpath -w "/c/Users/User3/Downloads/e3377d77-afed-4e11-91fd-94abdeff7754-discovery.iso")
 
 # Ensure VMware Workstation is installed
 if ! command -v vmrun &>/dev/null; then
